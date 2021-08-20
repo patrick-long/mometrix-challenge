@@ -1,0 +1,10 @@
+version: "3"
+services: 
+  display:
+    image: "mometrix-display"
+    ports: 
+      - 8080:5000
+    links: 
+      - database
+  database:
+    image: "mometrix-mysql"
