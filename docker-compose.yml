@@ -1,10 +1,15 @@
 version: "3"
 services: 
   display:
-    image: "mometrix-display"
+    container_name: php-display
+    volumes:
+      - ./mometrix-display/src:/var/www/html/
+    build: 
+      context: php
+      dockerfile: Dockerfile
     ports: 
-      - 8080:5000
-    links: 
-      - database
-  database:
-    image: "mometrix-mysql"
+      - 8000:5000
+  #   links: 
+  #     - database
+  # database:
+  #   image: "mometrix-mysql"
