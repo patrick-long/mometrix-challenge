@@ -5,11 +5,19 @@ services:
     volumes:
       - ./mometrix-display/src:/var/www/html/
     build: 
-      context: php
+      context: mometrix-display
       dockerfile: Dockerfile
     ports: 
-      - 8000:5000
-  #   links: 
-  #     - database
-  # database:
-  #   image: "mometrix-mysql"
+      - 8000:80
+    links: 
+      - database
+  database:
+    image: mysql:8.0.23
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment: 
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: patrick_test
+      MYSQL_USER: plong
+      MYSQL_PASSWORD: ruralrailwayunderneathanongoingsack
+      MYSQL_HOST: http://dry-stem.ctiprsssz8eo.us-west-2.rds.amazonaws.com/
