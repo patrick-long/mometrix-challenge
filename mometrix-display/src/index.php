@@ -12,38 +12,27 @@
 
         include '.env.php';
 
-        echo $USER;
-
         $conn = new mysqli($HOST, $USER, $PASSWORD, $DBNAME);
         
         if ($conn -> connect_error) {
             echo "Connection failed: " . $conn -> connect_error;
         } else {
-            echo 'Successfully connected to MySQL';
+            echo 'Successfully connected to MySQL<br><br><br>';
         }
 
+        $sqlQuery = 'SELECT * FROM favorite_colors;';
+        $queryResult = $conn -> query('SELECT * FROM favorite_colors;');
 
-        // $query = 'SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = "BASE TABLE" AND TABLE_SCHEMA="patrick_test"';
-        // $result = $conn -> query($query);
-        // print_r($result);
+        if ($queryResult -> num_rows > 0) {
+            while ($row = $queryResult -> fetch_assoc()) {
+                echo "Name: " . $row['name'] . '; Favorite color: ' . $row['color'] . '<br>';
+            }
+        } else {
+            echo "No results found";
+        }
 
-        // $sqlQuery = 'SELECT *';
-        // $queryResult = $conn -> query($sqlQuery);
-        // echo $queryResult;
-
-        // if ($result -> num_rows > 0) {
-        //     while ($row = $result -> fetch_assoc()) {
-        //         echo "Row " . $row;
-        //     }
-        // } else {
-        //     echo "No results found";
-        // }
-
-        // $conn -> close();
-
-
-
-        // echo "The user is " .$_ENV['USER'];
+        $conn -> close();
+        
     ?>
     
 </body>
