@@ -16,6 +16,18 @@
     <div>
         <input class="form-control mx-auto w-50" type="text" id="userInput" onkeyup="searchFunction()" placeholder="Search for names or colors...">
     </div>
+    <form>
+        <div class="form-check d-flex justify-content-center">
+            <input class="form-check-input mx-1" type="radio" id="nameCheckbox" name="form-checkbox" checked>
+            <label class="form-check-label mx-2" for="nameCheckbox">
+                Search names
+            </label>
+            <input class="form-check-input mx-1" type="radio" id="colorCheckbox" name="form-checkbox">
+            <label class="form-check-label mx-2" for="colorCheckbox">
+                Search colors
+            </label>
+        </div>
+    </form>
     <hr>
 
     <?php
@@ -66,13 +78,25 @@
             let tableRow = table.getElementsByTagName('tr');
 
             for (let i = 0; i < tableRow.length; i++) {
-                let tableData = tableRow[i].getElementsByTagName('td')[0];
-                if (tableData) {
-                    let textValue = tableData.textContent || tableData.innerText;
-                    if (textValue.toUpperCase().indexOf(filter) > -1) {
-                        tableRow[i].style.display = '';
-                    } else {
-                        tableRow[i].style.display = 'none';
+                if (document.getElementById('nameCheckbox').checked) {
+                    let tableData = tableRow[i].getElementsByTagName('td')[0];
+                    if (tableData) {
+                        let textValue = tableData.textContent || tableData.innerText;
+                        if (textValue.toUpperCase().indexOf(filter) > -1) {
+                            tableRow[i].style.display = '';
+                        } else {
+                            tableRow[i].style.display = 'none';
+                        }
+                    }
+                } else if (document.getElementById('colorCheckbox').checked) {
+                    let tableData = tableRow[i].getElementsByTagName('td')[1];
+                    if (tableData) {
+                        let textValue = tableData.textContent || tableData.innerText;
+                        if (textValue.toUpperCase().indexOf(filter) > -1) {
+                            tableRow[i].style.display = '';
+                        } else {
+                            tableRow[i].style.display = 'none';
+                        }
                     }
                 }
             }
