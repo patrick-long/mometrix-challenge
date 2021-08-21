@@ -9,6 +9,15 @@
 </head>
 <body>
 
+    <h1 class="text-center">patrick_test</h1>
+    <br>
+    <br>
+    <br>
+    <div>
+        <input class="form-control mx-auto w-50" type="text" id="userInput" onkeyup="searchFunction()" placeholder="Search for names or colors...">
+    </div>
+    <hr>
+
     <?php
 
         include '.env.php';
@@ -17,38 +26,25 @@
         
         if ($conn -> connect_error) {
             echo "Connection failed: " . $conn -> connect_error;
-        } else {
-            echo '
-                <h1 class="text-center">patrick_test</h1>
-                <br>
-                <br>
-                <br>
-            ';
-        }
+        };
 
         $sqlQuery = 'SELECT * FROM favorite_colors;';
         $queryResult = $conn -> query($sqlQuery);
 
         if ($queryResult -> num_rows > 0) {
             echo 
-                '<div>
-                    <input class="form-control mx-auto w-50" type="text" id="userInput" onkeyup="searchFunction()" placeholder="Search for names or colors...">
-                </div>
-                <hr>';
-
-            echo 
-                '<table class="table" id="colorsTable">
+                '<table class="table">
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Favorite color</th>
                         </tr>
                     </thead>
-                    <tbody>';
+                    <tbody id="colorsTable">';
             while ($row = $queryResult -> fetch_assoc()) {
                     echo 
-                        '<tr style="background:' . $row["color"] . '"' . '>
-                            <th scope="row">' . $row["name"] . '</th>
+                        '<tr class="tableRow" style="background:' . $row["color"] . '"' . '>
+                            <td>' . $row["name"] . '</td>
                             <td>' . $row["color"] . '</td>
                         </tr>';
             }
@@ -56,11 +52,32 @@
                 </table>';
         } else {
             echo "No results found";
-        }
+        };
 
         $conn -> close();
         
     ?>
-    
+
+    <script>
+        const searchFunction = () => {
+            let input = document.getElementById('userInput');
+            let filter = input.value.toUpperCase();
+            let table = document.getElementById('colorsTable');
+            let tableRow = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < tableRow.length; i++) {
+                let tableData = tableRow[i].getElementsByTagName('td')[0];
+                if (tableData) {
+                    let textValue = tableData.textContent || tableData.innerText;
+                    if (textValue.toUpperCase().indexOf(filter) > -1) {
+                        tableRow[i].style.display = '';
+                    } else {
+                        tableRow[i].style.display = 'none';
+                    }
+                }
+            }
+        }
+
+    </script>
 </body>
 </html>
