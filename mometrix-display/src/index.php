@@ -9,10 +9,6 @@
 </head>
 <body>
 
-    <form action="get" method="get" class="form-group">
-        <button class="btn btn-success" type="submit">Submit</button>
-    </form>
-
     <?php
 
         include '.env.php';
@@ -22,16 +18,36 @@
         if ($conn -> connect_error) {
             echo "Connection failed: " . $conn -> connect_error;
         } else {
-            echo 'Successfully connected to MySQL<br><br><br>';
+            echo '
+                <h1 class="text-center">patrick_test</h1>
+                <br>
+                <br>
+                <br>
+            ';
         }
 
         $sqlQuery = 'SELECT * FROM favorite_colors;';
         $queryResult = $conn -> query($sqlQuery);
 
         if ($queryResult -> num_rows > 0) {
+            echo 
+                '<table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Favorite color</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
             while ($row = $queryResult -> fetch_assoc()) {
-                echo "Name: " . $row['name'] . '; Favorite color: ' . $row['color'] . '<br>';
+                    echo 
+                        '<tr style="background:' . $row["color"] . '"' . '>
+                            <th scope="row">' . $row["name"] . '</th>
+                            <td>' . $row["color"] . '</td>
+                        </tr>';
             }
+            echo    '</tbody>
+                </table>';
         } else {
             echo "No results found";
         }
