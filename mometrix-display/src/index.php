@@ -31,7 +31,13 @@
 
         if ($queryResult -> num_rows > 0) {
             echo 
-                '<table class="table">
+                '<div>
+                    <input class="form-control mx-auto w-50" type="text" id="userInput" onkeyup="searchFunction()" placeholder="Search for names or colors...">
+                </div>
+                <hr>';
+
+            echo 
+                '<table class="table" id="colorsTable">
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
